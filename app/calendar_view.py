@@ -48,8 +48,19 @@ class CalendarView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         cal = Calendar('pl_PL.utf8')
-        context['calendar'] = mark_safe(cal.formatmonth(self.kwargs['year'], self.kwargs['month']))
+        context['calendar'] = mark_safe(cal.formatmonth(self.kwargs['year'], self.kwargs['month'] + 1))
+        next_month = (self.kwargs['month'] + 1) % 12
+        context['nextMonth'] = next_month
+        context['nextYear'] = self.kwargs['year'] + 1 if next_month == 0 else self.kwargs['year']
+        previous_month = self.kwargs['month'] - 1
+        switch_year = self.__is_year_switched(previous_month)
+        context['previousMonth'] = 11 if switch_year else previous_month
+        context['previousYear'] = self.kwargs['year'] - 1 if switch_year else self.kwargs['year']
         return context
+
+    @staticmethod
+    def __is_year_switched(previous_month):
+        return previous_month < 0
 
     def get_queryset(self):
         pass

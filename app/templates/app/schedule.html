@@ -10,5 +10,11 @@
 <body>
 <h1>Kalendarz</h1>
 {{ calendar }}
+<p class="switch_month" style="left: 25%">
+    <a href="{% url 'calendar' previousYear previousMonth %}">Poprzedni miesiąc</a>
+</p>
+<p class="switch_month" style="right: 25%">
+    <a href="{% url 'calendar' nextYear nextMonth %}">Kolejny miesiąc</a>
+</p>
 </body>
 </html>
