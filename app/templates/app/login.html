@@ -1,13 +1,15 @@
+{% load static %}
+
 <html lang="pl">
 <head>
     <meta charset="utf-8">
-    <title>Simple PHP document</title>
-    <link rel="stylesheet" href="index.css?v=<?php echo time(); ?>">
+    <title>Logowanie</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/background.css' %}">
 </head>
 
 <body>
-    <h1>Login</h1>
-    <form  method="POST" action="{% url 'login_check' %}" onsubmit="onSubmit()" onreset="onReset()">
+    <h1>Logowanie</h1>
+    <form  method="POST" action="{% url 'login_check' %}">
         {% csrf_token %}
         <p>
             <label>Login</label>
@@ -22,11 +24,9 @@
                     style="margin-left: 10px; width: 250px" />
             </label>
         </p>
-        <p>
-        <input type="submit" value="Submit" />
-        </p>
+        <input type="submit" value="Zaloguj się" />
     </form>
-    <form action="registration.php">
+    <form action="{% url 'register' %}">
         <input type="submit" value="Zarejestruj się" />
     </form>
 </body>

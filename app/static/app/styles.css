@@ -32,7 +32,7 @@
 
 ul {
     height: 100%;
-    padding: 0px 5px 0px 20px;
+    padding: 0 5px 0 20px;
 }
 
 a {
@@ -46,11 +46,6 @@ td {
 
 h1 {
     text-align: center;
-}
-
-body {
-    background: url("images/background.png") no-repeat;
-    color: cyan;
 }
 
 .switch_month {
