@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
@@ -26,3 +27,24 @@ def login_progress(request):
 
 def user_login(request):
     return render(request, 'app/login.html')
+
+
+def register(request):
+    return render(request, 'app/registration.html')
+
+
+def register_process(request):
+    username = request.POST['login']
+    password = request.POST['pass']
+    name = request.POST['name']
+    lastname = request.POST['lastname']
+    mail = request.POST['mail']
+    user = User.objects.get(username=username)
+    if user is None:
+        user = User.objects.create_user(username, mail, password)
+        user.first_name = name
+        user.last_name = lastname
+        user.save()
+        return redirect("/")
+    else:
+        return register(request)

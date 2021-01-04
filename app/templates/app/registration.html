@@ -1,0 +1,44 @@
+{% load static %}
+
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Rejestracja</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/background.css' %}">
+</head>
+
+<body>
+<h1>Rejestracja użytkownika</h1>
+<form method="POST" action="{% url 'register_process' %}">
+    {% csrf_token %}
+    <p>
+        <label>Login
+            <input name=login type="text" placeholder="Wprowadź login..." style="margin-left: 10px; width: 250px"/>
+        </label>
+    </p>
+    <p>
+        <label>Hasło
+            <input name="pass" type="password" placeholder="Wprowadź hasło..." style="margin-left: 10px; width: 250px"/>
+        </label>
+    </p>
+    <p>
+        <label>Imię
+            <input name="name" type="text" placeholder="Wprowadź imię..." style="margin-left: 10px; width: 250px"/>
+        </label>
+    </p>
+    <p>
+        <label>Nazwisko
+            <input name="lastname" type="text" placeholder="Wprowadź nazwisko..."
+                   style="margin-left: 10px; width: 250px"/>
+        </label>
+    </p>
+    <p>
+        <label>Email
+            <input name="mail" type="text" placeholder="Podaj adres email..." style="margin-left: 10px; width: 250px"/>
+        </label>
+    </p>
+    <input type="submit" value="Utwórz konto"/>
+</form>
+</body>
+
+</html>
