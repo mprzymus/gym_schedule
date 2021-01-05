@@ -1,6 +1,6 @@
 import datetime
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -19,14 +19,21 @@ def login_progress(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        year, month = __get_current_month()
-        return redirect('/%d/%d/calendar' % (year, month))
+        return redirect_to_current_month()
     else:
-        return HttpResponse('nie ma')
+        user_login(request)
+
+
+def redirect_to_current_month():
+    year, month = __get_current_month()
+    return redirect('/%d/%d/calendar' % (year, month))
 
 
 def user_login(request):
-    return render(request, 'app/login.html')
+    if not request.user.is_authenticated:
+        return render(request, 'app/login.html')
+    else:
+        return redirect_to_current_month()
 
 
 def register(request):
@@ -48,3 +55,12 @@ def register_process(request):
         return redirect("/")
     else:
         return register(request)
+
+
+def logout_user(request):
+    logout(request)
+    return redirect("/index")
+
+
+def default_user_site(request):
+    return redirect_to_current_month()
