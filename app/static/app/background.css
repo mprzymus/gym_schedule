@@ -1,4 +1,4 @@
-body {
-    background: url("images/background.png") no-repeat;
+html {
+    background: url("images/background.png") repeat;
     color: cyan;
 }

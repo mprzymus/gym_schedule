@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 
-from . import calendar_view, views
+from . import calendar_view, views, day_details
 
 urlpatterns = [
     path('<int:year>/<int:month>/calendar', login_required(calendar_view.CalendarView.as_view()), name='calendar'),
+    path('<int:year>/<int:month>/<int:day>/details', login_required(day_details.DayDetails.as_view()), name='details'),
     path('login', views.user_login, name='login'),
     path('login_check', views.login_progress, name='login_check'),
     path('register', views.register, name='register'),

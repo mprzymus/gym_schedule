@@ -9,6 +9,8 @@ polish_months = ['', 'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec
 
 
 class Calendar(LocaleHTMLCalendar):
+    details_button = '<a href=\'%s/details\';">Szczegóły</a>'
+
     def __init__(self, locale):
         super(Calendar, self).__init__(locale=locale)
 
@@ -22,7 +24,8 @@ class Calendar(LocaleHTMLCalendar):
         if day == 0:
             return '<td class="%s">&nbsp;</td>' % self.cssclass_noday
         else:
-            return '<td class="%s">%d</td>' % ('date', day)
+            details_button = self.details_button % day
+            return '<td><span class="%s">%d</span><p>%s</p></td>' % ('day_off', day, details_button)
 
     def formatmonth(self, theyear, themonth, withyear=True):
         v = []
@@ -42,7 +45,7 @@ class Calendar(LocaleHTMLCalendar):
         return ''.join(v)
 
 
-class CalendarView(generic.ListView):
+class CalendarView(generic.TemplateView):
     template_name = 'app/schedule.html'
 
     def get_context_data(self, **kwargs):
