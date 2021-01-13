@@ -44,7 +44,7 @@ class ServiceTest(TestCase):
     def test_usage_to_command(self):
         ex = Exercise(1, self.exercise_name)
         date = datetime.now()
-        usage = ExerciseUsage(user_id=self.user, exercise_id=ex, date=date, weight=self.weight,
+        usage = ExerciseUsage(id=1, user_id=self.user, exercise_id=ex, date=date, weight=self.weight,
                               repetitions=self.repetition, sets=self.sets)
         command = exercise_usage_to_command(usage)
         self.assertEqual(self.exercise_name, command.exercise_name)
