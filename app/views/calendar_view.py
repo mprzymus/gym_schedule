@@ -1,7 +1,9 @@
 from calendar import LocaleHTMLCalendar
+import datetime
 
 from django.utils.safestring import mark_safe
 from django.views import generic
+from ..service.exercise_service import has_no_exercises
 
 polish_locale = 'pl_PL.utf8'
 polish_months = ['', 'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień',
@@ -10,6 +12,7 @@ polish_months = ['', 'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec
 
 class Calendar(LocaleHTMLCalendar):
     details_button = '<a href=\'%s/details\';">Szczegóły</a>'
+    formatted_year, formatted_month = None, None
 
     def __init__(self, locale):
         super(Calendar, self).__init__(locale=locale)
@@ -25,9 +28,13 @@ class Calendar(LocaleHTMLCalendar):
             return '<td class="%s">&nbsp;</td>' % self.cssclass_noday
         else:
             details_button = self.details_button % day
-            return '<td><span class="%s">%d</span><p>%s</p></td>' % ('day_off', day, details_button)
+            css_day_class = 'day_off' if has_no_exercises(
+                date=datetime.datetime(self.formatted_year, self.formatted_month, day)) else "active_day"
+            return '<td><span class="%s">%d</span><p>%s</p></td>' % (css_day_class, day, details_button)
 
     def formatmonth(self, theyear, themonth, withyear=True):
+        self.formatted_month = themonth
+        self.formatted_year = theyear
         v = []
         a = v.append
         a('<table border="1" cellpadding="0" cellspacing="0" class="%s">' % (

@@ -1,5 +1,8 @@
 import datetime
+from io import StringIO
 
+import matplotlib.pyplot as plt
+import numpy as np
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -20,7 +23,7 @@ def login_progress(request):
         login(request, user)
         return redirect_to_current_month()
     else:
-        user_login(request)
+        return user_login(request)
 
 
 def redirect_to_current_month():
@@ -63,3 +66,23 @@ def logout_user(request):
 
 def default_user_site(request):
     return redirect_to_current_month()
+
+
+def return_graph():
+    x = np.arange(0, np.pi * 3, .1)
+    y = np.sin(x)
+
+    fig = plt.figure()
+    plt.plot(x, y)
+
+    imgdata = StringIO()
+    fig.savefig(imgdata, format='svg')
+    imgdata.seek(0)
+
+    data = imgdata.getvalue()
+    return data
+
+
+def chart_test(request):
+    context = {'graph': return_graph()}
+    return render(request, 'app/dashboard.html', context)

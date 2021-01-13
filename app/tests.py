@@ -1,8 +1,19 @@
+from datetime import datetime
+
+from django.contrib.auth.models import User
 from django.test import TestCase, Client
+
+from app.model.models import ExerciseUsage, Exercise
+from app.service.exercise_service import exercise_usage_to_command
 
 
 class CalendarTest(TestCase):
     client = Client()
+
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user('testUser', 'test@test.com', 'testpass')
+        self.client.login(username="testUser", password="testpass")
 
     def test_january_date(self):
         response = self.client.get('/2020/00/calendar')
@@ -19,3 +30,25 @@ class CalendarTest(TestCase):
         self.assertEqual(2021, response.context['nextYear'])
         self.assertEqual(10, response.context['previousMonth'])
         self.assertEqual(2020, response.context['previousYear'])
+
+
+class ServiceTest(TestCase):
+    exercise_name = "test"
+    weight = 10
+    repetition = 10
+    sets = 3
+
+    def setUp(self):
+        self.user = User.objects.create_user('testUserService', 'test@test.com', 'testpass')
+
+    def test_usage_to_command(self):
+        ex = Exercise(1, self.exercise_name)
+        date = datetime.now()
+        usage = ExerciseUsage(user_id=self.user, exercise_id=ex, date=date, weight=self.weight,
+                              repetitions=self.repetition, sets=self.sets)
+        command = exercise_usage_to_command(usage)
+        self.assertEqual(self.exercise_name, command.exercise_name)
+        self.assertEqual(date, command.date)
+        self.assertEqual(self.weight, command.weight)
+        self.assertEqual(self.repetition, command.repetitions)
+        self.assertEqual(self.sets, command.sets)

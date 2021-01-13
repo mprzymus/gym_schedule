@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 
-from . import calendar_view, views, day_details
+from .views import views, calendar_view, day_details
 
 urlpatterns = [
     path('<int:year>/<int:month>/calendar', login_required(calendar_view.CalendarView.as_view()), name='calendar'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('index', views.user_login, name='index'),
     path('', views.user_login, name='default'),
     path('logout', views.logout_user, name='logout'),
+    path('chart', views.chart_test, name='chart'),
 ]

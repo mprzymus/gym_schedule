@@ -11,8 +11,9 @@ class ExerciseUsage(models.Model):
     exercise_id = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
-    weight = models.IntegerField()
-    repetitions = models.IntegerField()
+    weight = models.IntegerField(default=0)
+    repetitions = models.IntegerField(default=0)
+    sets = models.IntegerField(default=0)
 
     class Meta:
         unique_together = ["user_id", "date", "exercise_id"]

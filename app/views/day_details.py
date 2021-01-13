@@ -2,7 +2,7 @@ import datetime
 
 from django.views import generic
 
-from app.models import ExerciseUsage
+from app.model.models import ExerciseUsage
 
 
 class DayDetails(generic.ListView):
@@ -16,5 +16,7 @@ class DayDetails(generic.ListView):
         year = self.kwargs['year']
         print('%d %d %d' % (day, month, year))
         exercises = ExerciseUsage.objects.filter(date=datetime.datetime(year, month, day))
-        return exercises
+        return map(lambda ex: str(ex), exercises)
 
+    def convert_to_command(self, exercise: ExerciseUsage):
+        pass
