@@ -3,7 +3,7 @@ import datetime
 from django.views import generic
 
 from app.model.models import ExerciseUsage
-from app.service.exercise_service import exercise_usage_to_command
+from app.service.exercise_usage_service import exercise_usage_to_command
 
 
 class DayDetails(generic.ListView):

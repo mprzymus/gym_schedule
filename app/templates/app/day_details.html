@@ -7,8 +7,15 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/background.css' %}">
 </head>
 <body>
+<h1>Ćwiczenia na dzień {{ date }}</h1>
 {% for exercise in exercises %}
-    <p>{{ exercise }}</p>
+<p>
+    {{ exercise.exercise_name }} {{ exercise.weight }}kg, {{ exercise.repetitions }} powtórzeń, {{ exercise.sets }}
+    serii
+    <a href="details/{{exercise.id}}">Edytuj</a>
+</p>
+{% empty %}
+<p>Dzień wolny</p>
 {% endfor %}
 </body>
 </html>

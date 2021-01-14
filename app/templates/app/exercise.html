@@ -1,0 +1,42 @@
+{% load static %}
+
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Ćwiczenie</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/background.css' %}">
+</head>
+<body>
+<h1>Ćwiczenia na dzień {{ date }}</h1>
+<form method="POST" action="{{object.id}}/update">
+    {% csrf_token %}
+    <p>
+        <label>Ćwiczenie
+            <input list="chosen_ex" type="text" id="exercise" value="{{object.exercise_id.name}}"/>
+            <datalist id="chosen_ex">
+                {% for exercise in all_exercises %}
+                <option value="{{exercise.name}}">
+                    {% endfor %}
+            </datalist>
+        </label>
+    </p>
+    <p>
+        <label>Liczba powtórzeń
+            <input name="repetitions" type="number" value="{{object.repetitions}}"/>
+        </label>
+    </p>
+    <p>
+        <label>Liczba serii
+            <input name="sets" type="number" value="{{object.sets}}"/>
+        </label>
+    </p>
+    <p>
+        <label>Ciężar
+            <input name="weight" type="number" value="{{object.weight}}"/>
+            [kg]</label>
+    </p>
+    <input type="submit" value="Zatwierdź"/>
+</form>
+
+</body>
+</html>

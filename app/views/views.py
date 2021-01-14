@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 
@@ -86,3 +87,8 @@ def return_graph():
 def chart_test(request):
     context = {'graph': return_graph()}
     return render(request, 'app/dashboard.html', context)
+
+
+def update(request, **kwargs):
+    """TODO if pk = 0 then add. Save changes"""
+    return HttpResponse("Will be done")

@@ -14,5 +14,6 @@ urlpatterns = [
     path('', views.user_login, name='default'),
     path('logout', views.logout_user, name='logout'),
     path('<int:year>/<int:month>/<int:day>/details/<int:pk>', exercise_view.ExerciseView.as_view(), name='exercise_usage_details'),
+    path('<int:year>/<int:month>/<int:day>/details/<int:pk>/update', views.update, name='update_exercise'),
     path('chart', views.chart_test, name='chart'),
 ]

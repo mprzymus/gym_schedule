@@ -3,7 +3,7 @@ import datetime
 
 from django.utils.safestring import mark_safe
 from django.views import generic
-from ..service.exercise_service import has_no_exercises
+from ..service.exercise_usage_service import has_no_exercises
 
 polish_locale = 'pl_PL.utf8'
 polish_months = ['', 'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień',
