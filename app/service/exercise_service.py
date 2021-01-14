@@ -1,15 +1,10 @@
-from app.model.commands import ExerciseUsageCommand
-from app.model.models import ExerciseUsage
+from app.model.models import Exercise
 
 
-def exercise_usage_to_command(exercise: ExerciseUsage):
-    return ExerciseUsageCommand.from_exercise_usage(exercise.exercise_id.name, exercise)
+def find_exercises_for_day(pk=0):
+    return Exercise.objects.get(pk=pk)
 
 
-def has_no_exercises(date):
-    return len(find_exercises_for_day(date)) == 0
-
-
-def find_exercises_for_day(date):
-    return ExerciseUsage.objects.filter(date=date)
-
+def does_id_exist(pk=0):
+    print(Exercise.objects.all())
+    return Exercise.objects.filter(pk=pk).exists()
