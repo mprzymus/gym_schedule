@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.test import TestCase, Client
 
 from app.model.models import ExerciseUsage, Exercise
-from app.service.exercise_service import exercise_usage_to_command
+from app.service.exercise_usage_service import exercise_usage_to_command
+import app.service.exercise_service as ex_service
 
 
 class CalendarTest(TestCase):
@@ -32,7 +33,7 @@ class CalendarTest(TestCase):
         self.assertEqual(2020, response.context['previousYear'])
 
 
-class ServiceTest(TestCase):
+class ExerciseUsageServiceTest(TestCase):
     exercise_name = "test"
     weight = 10
     repetition = 10
@@ -52,3 +53,16 @@ class ServiceTest(TestCase):
         self.assertEqual(self.weight, command.weight)
         self.assertEqual(self.repetition, command.repetitions)
         self.assertEqual(self.sets, command.sets)
+
+
+class ExerciseServiceTest(TestCase):
+    def setUp(self) -> None:
+        Exercise.objects.create(pk=1, name="name")
+
+    def test_exists(self):
+        result = ex_service.does_id_exist(pk=1)
+        self.assertTrue(result)
+
+    def test_not_exists(self):
+        result = ex_service.does_id_exist(pk=-1)
+        self.assertFalse(result)
