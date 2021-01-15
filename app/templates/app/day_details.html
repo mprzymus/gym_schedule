@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/background.css' %}">
 </head>
 <body>
+{% include "app/nav.html" %}
 <h1>Ćwiczenia na dzień {{ date }}</h1>
 {% for exercise in exercises %}
 <p>
