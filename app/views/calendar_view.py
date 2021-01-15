@@ -14,8 +14,9 @@ class Calendar(LocaleHTMLCalendar):
     details_button = '<a href=\'%s/details\';">Szczegóły</a>'
     formatted_year, formatted_month = None, None
 
-    def __init__(self, locale):
+    def __init__(self, locale, user):
         super(Calendar, self).__init__(locale=locale)
+        self.user = user
 
     def formatmonthname(self, theyear, themonth, withyear=True):
         if self.locale == polish_locale:
@@ -29,7 +30,7 @@ class Calendar(LocaleHTMLCalendar):
         else:
             details_button = self.details_button % day
             css_day_class = 'day_off' if has_no_exercises(
-                date=datetime.datetime(self.formatted_year, self.formatted_month, day)) else "active_day"
+                datetime.datetime(self.formatted_year, self.formatted_month, day), self.user) else "active_day"
             return '<td><span class="%s">%d</span><p>%s</p></td>' % (css_day_class, day, details_button)
 
     def formatmonth(self, theyear, themonth, withyear=True):
@@ -57,7 +58,7 @@ class CalendarView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        cal = Calendar('pl_PL.utf8')
+        cal = Calendar('pl_PL.utf8', self.request.user)
         context['calendar'] = mark_safe(cal.formatmonth(self.kwargs['year'], self.kwargs['month'] + 1))
         next_month = (self.kwargs['month'] + 1) % 12
         context['nextMonth'] = next_month

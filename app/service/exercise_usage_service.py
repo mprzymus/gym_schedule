@@ -7,12 +7,12 @@ def exercise_usage_to_command(exercise: ExerciseUsage):
     return ExerciseUsageCommand.from_exercise_usage(exercise.exercise_id.name, exercise)
 
 
-def has_no_exercises(date):
-    return len(find_exercises_for_day(date)) == 0
+def has_no_exercises(date, user):
+    return len(find_exercises_for_day(date, user)) == 0
 
 
-def find_exercises_for_day(date):
-    return ExerciseUsage.objects.filter(date=date)
+def find_exercises_for_day(date, user):
+    return ExerciseUsage.objects.filter(date=date, user_id=user)
 
 
 def add_usage(date, exercise, repetitions, sets, weight, user) -> ExerciseUsage:
