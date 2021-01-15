@@ -13,9 +13,12 @@
     {{ exercise.exercise_name }} {{ exercise.weight }}kg, {{ exercise.repetitions }} powtórzeń, {{ exercise.sets }}
     serii
     <a href="details/{{exercise.id}}">Edytuj</a>
+    <a href="details/{{exercise.id}}/delete">Usuń</a>
 </p>
 {% empty %}
 <p>Dzień wolny</p>
 {% endfor %}
+
+<a href="new"><button>Dodaj ćwiczenie</button></a>
 </body>
 </html>

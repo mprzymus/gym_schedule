@@ -13,3 +13,8 @@ class ExerciseUsageCommand:
     @classmethod
     def from_exercise_usage(cls, exercise_name, exercise: ExerciseUsage):
         return cls(exercise.id, exercise_name, exercise.date, exercise.weight, exercise.repetitions, exercise.sets)
+
+
+class NewExerciseUsage:
+    def __init__(self):
+        self.id = 0

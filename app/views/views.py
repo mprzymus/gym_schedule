@@ -5,8 +5,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse
+
+import app.service.exercise_usage_service as usage_service
+from app.const import NEW_ELEMENT_PK
+
+
+def dispatch_date(kwargs):
+    return kwargs['day'], kwargs['month'], kwargs['year']
 
 
 def __get_current_month():
@@ -90,5 +98,30 @@ def chart_test(request):
 
 
 def update(request, **kwargs):
-    """TODO if pk = 0 then add. Save changes"""
-    return HttpResponse("Will be done")
+    exercise = request.POST['chosen_ex']
+    repetitions = request.POST['repetitions']
+    sets = request.POST['sets']
+    weight = request.POST['weight']
+    year = kwargs['year']
+    month = kwargs['month']
+    day = kwargs['day']
+    pk = kwargs['pk']
+    if pk == NEW_ELEMENT_PK:
+        date = datetime.date(year, month + 1, day)
+        db = usage_service.add_usage(date=date, exercise=exercise, repetitions=repetitions, sets=sets, weight=weight,
+                                     user=request.user)
+        pk = db.id
+    else:
+        usage_service.update(pk=pk, sets=sets, weight=weight, repetitions=repetitions, exercise=exercise)
+    return HttpResponseRedirect(reverse('exercise_usage_details', args=(year, month, day, pk)))
+
+
+def add_username_to_context():
+    pass
+
+
+def remove_usage(request, **kwargs):
+    pk = kwargs['pk']
+    day, month, year = dispatch_date(kwargs)
+    usage_service.remove(pk)
+    return HttpResponseRedirect(reverse('details', args=(year, month, day)))

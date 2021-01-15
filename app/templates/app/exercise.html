@@ -8,12 +8,12 @@
 </head>
 <body>
 <h1>Ćwiczenia na dzień {{ date }}</h1>
-<form method="POST" action="{{object.id}}/update">
+<form method="POST" action="{{ submit }}">
     {% csrf_token %}
     <p>
         <label>Ćwiczenie
-            <input list="chosen_ex" type="text" id="exercise" value="{{object.exercise_id.name}}"/>
-            <datalist id="chosen_ex">
+            <input name="chosen_ex" list="exercises" type="text" value="{{object.exercise_id.name}}"/>
+            <datalist id="exercises">
                 {% for exercise in all_exercises %}
                 <option value="{{exercise.name}}">
                     {% endfor %}

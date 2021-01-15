@@ -14,6 +14,8 @@ urlpatterns = [
     path('', views.user_login, name='default'),
     path('logout', views.logout_user, name='logout'),
     path('<int:year>/<int:month>/<int:day>/details/<int:pk>', exercise_view.ExerciseView.as_view(), name='exercise_usage_details'),
+    path('<int:year>/<int:month>/<int:day>/details/<int:pk>/delete', views.remove_usage, name='exercise_usage_remove'),
+    path('<int:year>/<int:month>/<int:day>/new', exercise_view.new_exercise_usage_view, name='exercise_usage_new'),
     path('<int:year>/<int:month>/<int:day>/details/<int:pk>/update', views.update, name='update_exercise'),
     path('chart', views.chart_test, name='chart'),
 ]

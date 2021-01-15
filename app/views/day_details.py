@@ -12,7 +12,7 @@ class DayDetails(generic.ListView):
 
     def get_queryset(self):
         date = self.get_date()
-        exercises = ExerciseUsage.objects.filter(date=date)
+        exercises = ExerciseUsage.objects.filter(date=date, user_id=self.request.user)
         return map(exercise_usage_to_command, exercises)
 
     def get_date(self):
