@@ -17,6 +17,7 @@ class ExerciseView(DetailView):
         context = super().get_context_data(**kwargs)
         context['all_exercises'] = Exercise.objects.all()
         context['submit'] = reverse('update_exercise', args=(year, month, day, self.kwargs['pk']))
+        context['back'] = reverse('details', args=(year, month, day,))
         return context
 
 
@@ -27,7 +28,8 @@ def new_exercise_usage_view(request, **kwargs):
     context = {
         'all_exercises': Exercise.objects.all(),
         'object': NewExerciseUsage(),
-        'submit': reverse('update_exercise', args=(year, month, day, 0))
+        'submit': reverse('update_exercise', args=(year, month, day, 0)),
+        'back': reverse('details', args=(year, month, day,))
     }
     return render(request, 'app/exercise.html', context=context)
 

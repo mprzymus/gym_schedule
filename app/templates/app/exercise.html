@@ -38,6 +38,10 @@
     </p>
     <input type="submit" value="Zatwierdź"/>
 </form>
+<a href="{{ back }} ">
+    {% csrf_token %}
+    <button>Anuluj</button>
+</a>
 
 </body>
 </html>
