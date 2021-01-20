@@ -19,7 +19,16 @@
 {% empty %}
 <p>Dzień wolny</p>
 {% endfor %}
-
-<a href="new"><button>Dodaj ćwiczenie</button></a>
+<form method="post" action="{% url 'copy' %}">
+    {% csrf_token %}
+    <label>Skopiuj do dnia
+        <input type="date" id="target" name="date">
+        <input type="hidden" value="{{date}}" name="source_date" />
+        <input type="submit" value="Potwierdź"/>
+    </label>
+</form>
+<a href="new">
+    <button>Dodaj ćwiczenie</button>
+</a>
 </body>
 </html>
