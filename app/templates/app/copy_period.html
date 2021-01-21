@@ -1,0 +1,59 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kopiowanie Dnia</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/background.css' %}">
+</head>
+<body>
+{% include "app/nav.html" %}
+<form method="POST" action="">
+    {% csrf_token %}
+    <p>
+        <label>Początek okresu kopiowanego
+            <input type="date" name="source_date" required>
+        </label>
+        <label>czas trwania okresu:
+            <input name="period_length" type="number" value="0" required/>
+            dni
+        </label>
+    </p>
+    <p>
+        <label>Początek okresu do kopiowania
+            <input type="date" name="start_date" required>
+        </label>
+    </p>
+    <p>
+        <label>Koniec okresu do kopiowania
+            <input type="date" name="end_date" required>
+        </label>
+    </p>
+    <p>
+        <label>Minimum powtórzeń
+            <input type="number" name="min_rep" value="8" required>
+            maksimum powtórzeń
+        </label>
+        <label>
+            <input type="number" name="max_rep" value="12" required>
+        </label>
+    </p>
+    <p>
+        <label>
+            Progres co
+            <input type="number" name="periods_to_change" value="0" required>
+            okresów (0 oznacza brak progresu)
+        </label>
+    </p>
+    <p>
+        <label>Przy osiągnięciu górnego limitu zmiana masy o
+            <input type="number" name="weight" value="2.5" required>
+        [kg]</label>
+    </p>
+    <p>
+        <input type="submit" value="Zatwierdź"/>
+    </p>
+</form>
+
+</body>
+</html>

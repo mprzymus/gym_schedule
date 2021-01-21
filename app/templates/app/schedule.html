@@ -8,7 +8,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/background.css' %}">
 </head>
 <body>
-{% include "app/nav.html" %}
 <h1>Kalendarz</h1>
 {{ calendar }}
 <p class="switch_month" style="left: 25%">
@@ -16,6 +15,9 @@
 </p>
 <p class="switch_month" style="right: 25%">
     <a href="{% url 'calendar' nextYear nextMonth %}">Kolejny miesiąc</a>
+</p>
+<p style="text-align: center">
+    <a href="{% url 'copy_period' %}">Kopiowanie dni</a>
 </p>
 </body>
 </html>

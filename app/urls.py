@@ -3,6 +3,7 @@ from django.urls import path
 
 import app.views.account_management
 from .views import views, calendar_view, day_details, exercise_view, account_management, day_copy
+from .views.period_copy import PeriodCopyView
 
 urlpatterns = [
     path('<int:year>/<int:month>/calendar', login_required(calendar_view.CalendarView.as_view()), name='calendar'),
@@ -20,5 +21,6 @@ urlpatterns = [
     path('<int:year>/<int:month>/<int:day>/new', exercise_view.new_exercise_usage_view, name='exercise_usage_new'),
     path('<int:year>/<int:month>/<int:day>/details/<int:pk>/update', views.update, name='update_exercise'),
     path('chart', views.chart_test, name='chart'),
-    path('copy_day', day_copy.copy_day_view, name='copy')
+    path('copy_day', day_copy.copy_day_view, name='copy'),
+    path('copy_period', PeriodCopyView.as_view(), name='copy_period')
 ]
