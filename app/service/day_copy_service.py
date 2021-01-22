@@ -48,19 +48,23 @@ class PeriodCopier:
         last_pattern_day = self.pattern_starts + dt.timedelta(days=self.pattern_length - 1)
         return generate_dates_list(self.pattern_starts, last_pattern_day)
 
-    def fill_days(self):
+    def do_copy(self):
         i = 0
         dates = self.generate_future_dates_list()
         pattern_dates = self.generate_pattern_dates_list()
         for day in dates:
-            clear_day(day, self.user)
             source_date = pattern_dates[i % self.pattern_length]
-            current_repetition_change = int(i / self.periods_to_change) * self.repetitions_change
+            if self.periods_to_change > 0:
+                period = int(i / self.pattern_length)
+                current_repetition_change = int(period / self.periods_to_change) * self.repetitions_change
+            else:
+                current_repetition_change = 0
             self.copy_day(day, source_date, current_repetition_change)
             i = i + 1
 
     def copy_day(self, target_date, source_date, repetitions_to_add):
         exercises: List[ExerciseUsage] = find_exercises_for_day(source_date, self.user)
+        clear_day(target_date, self.user)
         for exercise in exercises:
             exercise = self.add_step_to_exercise(exercise, repetitions_to_add)
             add_usage(target_date, exercise.exercise_id.name, exercise.repetitions, exercise.sets, exercise.weight,

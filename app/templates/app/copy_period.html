@@ -8,7 +8,7 @@
 </head>
 <body>
 {% include "app/nav.html" %}
-<form method="POST" action="">
+<form method="POST" action="{% url 'copy_period' %}">
     {% csrf_token %}
     <p>
         <label>Początek okresu kopiowanego
@@ -42,7 +42,9 @@
         <label>
             Progres co
             <input type="number" name="periods_to_change" value="0" required>
-            okresów (0 oznacza brak progresu)
+            okresów (0 oznacza brak progresu) na
+            <input type="number" name="repetitions_change" value="0" required>
+            powtórzeń
         </label>
     </p>
     <p>
