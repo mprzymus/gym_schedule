@@ -7,7 +7,7 @@ def exercise_usage_to_command(exercise: ExerciseUsage):
     return ExerciseUsageCommand.from_exercise_usage(exercise.exercise_id.name, exercise)
 
 
-def has_no_exercises(date, user):
+def is_free_day(date, user):
     return len(find_exercises_for_day(date, user)) == 0
 
 

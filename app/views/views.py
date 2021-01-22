@@ -2,32 +2,21 @@ import datetime
 from io import StringIO
 
 import matplotlib.pyplot as plt
-import numpy as np
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
 import app.service.exercise_usage_service as usage_service
 from app.const import NEW_ELEMENT_PK
-
-
-def dispatch_date(kwargs):
-    return kwargs['day'], kwargs['month'], kwargs['year']
-
-
-def __get_current_month():
-    now = datetime.datetime.now()
-    month = now.month - 1
-    year = now.year
-    return year, month
+from app.service.date_service import dispatch_date
 
 
 def return_graph():
-    x = np.arange(0, np.pi * 3, .1)
-    y = np.sin(x)
+    x = [1, 2, 3, 4, 5]
+    y = [1, 5, 3, 2, 7]
 
     fig = plt.figure()
-    plt.plot(x, y)
+    plt.plot(x, y, linestyle="--", marker="o")
 
     imgdata = StringIO()
     fig.savefig(imgdata, format='svg')

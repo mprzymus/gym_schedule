@@ -3,7 +3,7 @@ import datetime
 
 from django.utils.safestring import mark_safe
 from django.views import generic
-from ..service.exercise_usage_service import has_no_exercises
+from ..service.exercise_usage_service import is_free_day
 
 polish_locale = 'pl_PL.utf8'
 polish_months = ['', 'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień',
@@ -29,7 +29,7 @@ class Calendar(LocaleHTMLCalendar):
             return '<td class="%s">&nbsp;</td>' % self.cssclass_noday
         else:
             details_button = self.details_button % day
-            css_day_class = 'day_off' if has_no_exercises(
+            css_day_class = 'day_off' if is_free_day(
                 datetime.datetime(self.formatted_year, self.formatted_month, day), self.user) else "active_day"
             return '<td><span class="%s">%d</span><p>%s</p></td>' % (css_day_class, day, details_button)
 

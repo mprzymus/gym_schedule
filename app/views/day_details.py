@@ -3,6 +3,7 @@ import datetime
 from django.views import generic
 
 from app.model.models import ExerciseUsage
+from app.service.date_service import dispatch_date
 from app.service.exercise_usage_service import exercise_usage_to_command
 
 
@@ -16,9 +17,8 @@ class DayDetails(generic.ListView):
         return map(exercise_usage_to_command, exercises)
 
     def get_date(self):
-        day = self.kwargs['day']
-        month = self.kwargs['month'] + 1
-        year = self.kwargs['year']
+        day, month, year = dispatch_date(self.kwargs)
+        month = month + 1
         return datetime.date(year, month, day)
 
     def get_context_data(self, *, object_list=None, **kwargs):
