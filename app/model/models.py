@@ -11,7 +11,7 @@ class ExerciseUsage(models.Model):
     exercise_id = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
-    weight = models.IntegerField(default=0)
+    weight = models.FloatField(default=0.0)
     repetitions = models.IntegerField(default=0)
     sets = models.IntegerField(default=0)
 
