@@ -4,6 +4,7 @@ from typing import List
 import datetime as dt
 
 from app.model.models import ExerciseUsage
+from app.service.date_service import generate_dates_list
 from app.service.exercise_usage_service import find_exercises_for_day, add_usage
 
 
@@ -17,14 +18,6 @@ def copy_day(date_from, date_to, user):
 
 def clear_day(date_to, user):
     ExerciseUsage.objects.filter(user_id=user, date=date_to).delete()
-
-
-def generate_dates_list(start, end):
-    date_range = end - start
-    dates = []
-    for days in range(date_range.days + 1):
-        dates.append(start + dt.timedelta(days))
-    return dates
 
 
 class PeriodCopier:
