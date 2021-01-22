@@ -23,17 +23,17 @@
     </p>
     <p>
         <label>Liczba powtórzeń
-            <input name="repetitions" type="number" value="{{object.repetitions}}"/>
+            <input name="repetitions" type="number" value="{{object.repetitions}}" min="1"/>
         </label>
     </p>
     <p>
         <label>Liczba serii
-            <input name="sets" type="number" value="{{object.sets}}"/>
+            <input name="sets" type="number" value="{{object.sets}}" min="1"/>
         </label>
     </p>
     <p>
         <label>Ciężar
-            <input name="weight" type="number" value="{{object.weight}}"/>
+            <input name="weight" type="number" value="{{object.weight}}" step="0.05"/>
             [kg]</label>
     </p>
     <input type="submit" value="Zatwierdź"/>
