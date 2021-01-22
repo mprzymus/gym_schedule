@@ -1,34 +1,11 @@
 import datetime
-from io import StringIO
 
-import matplotlib.pyplot as plt
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse
 
 import app.service.exercise_usage_service as usage_service
 from app.const import NEW_ELEMENT_PK
 from app.service.date_service import dispatch_date
-
-
-def return_graph():
-    x = [1, 2, 3, 4, 5]
-    y = [1, 5, 3, 2, 7]
-
-    fig = plt.figure()
-    plt.plot(x, y, linestyle="--", marker="o")
-
-    imgdata = StringIO()
-    fig.savefig(imgdata, format='svg')
-    imgdata.seek(0)
-
-    data = imgdata.getvalue()
-    return data
-
-
-def chart_test(request):
-    context = {'graph': return_graph()}
-    return render(request, 'app/dashboard.html', context)
 
 
 def update(request, **kwargs):

@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
-from app.service.date_service import get_current_month
+from app.service.date_service import get_today
 
 
 def login_progress(request):
@@ -17,7 +17,7 @@ def login_progress(request):
 
 
 def redirect_to_current_month():
-    today = get_current_month()
+    today = get_today()
     return redirect('/%d/%d/calendar' % (today.year, today.month - 1))
 
 

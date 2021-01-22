@@ -1,1 +1,23 @@
- {{ graph|safe }}
+{% load static %}
+
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalendarz</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/background.css' %}">
+</head>
+<body>
+{% include "app/nav.html" %}
+<h1>Statystyki</h1>
+<form method="post" action="{% url 'chart' %}">
+    {% csrf_token %}
+    <label>Od
+        <input type="date" name="since" value="{{since}}">
+    </label>
+    <label>do
+        <input type="date" name="until" value="{{until}}">
+    </label>
+    <input type="submit" value="Potwierdź">
+</form>
+{{ graph|safe }}
+</body>

@@ -1,0 +1,1 @@
+GENERAL_CHART_TITLE = 'Ciężar według dni'
