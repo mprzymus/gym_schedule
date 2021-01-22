@@ -15,6 +15,10 @@ def find_exercises_for_day(date, user):
     return ExerciseUsage.objects.filter(date=date, user_id=user)
 
 
+def find_exercise_for_day_by_name(date, user, name):
+    return find_exercises_for_day(date, user).filter(exercise_id__name=name)
+
+
 def add_usage(date, exercise, repetitions, sets, weight, user) -> ExerciseUsage:
     db_exercise = get_or_create_exercise(exercise)
     usage = ExerciseUsage(user_id=user, exercise_id=db_exercise, date=date, weight=weight, repetitions=repetitions,
