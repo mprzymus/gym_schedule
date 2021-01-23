@@ -20,7 +20,7 @@ urlpatterns = [
     path('<int:year>/<int:month>/<int:day>/details/<int:pk>/delete', views.remove_usage, name='exercise_usage_remove'),
     path('<int:year>/<int:month>/<int:day>/new', exercise_view.new_exercise_usage_view, name='exercise_usage_new'),
     path('<int:year>/<int:month>/<int:day>/details/<int:pk>/update', views.update, name='update_exercise'),
-    path('chart', login_required(chart_view.ChartView.as_view()), name='chart'),
+    path('charts', login_required(chart_view.ChartView.as_view()), name='charts'),
     path('copy_day', day_copy.copy_day_view, name='copy'),
     path('copy_period', PeriodCopyView.as_view(), name='copy_period')
 ]

@@ -9,15 +9,30 @@
 <body>
 {% include "app/nav.html" %}
 <h1>Statystyki</h1>
-<form method="post" action="{% url 'chart' %}">
+<form method="post" action="{% url 'charts' %}">
     {% csrf_token %}
-    <label>Od
-        <input type="date" name="since" value="{{since}}">
-    </label>
-    <label>do
-        <input type="date" name="until" value="{{until}}">
-    </label>
+    <p>
+        <label>Od
+            <input type="date" name="since" value="{{since}}">
+        </label>
+        <label>do
+            <input type="date" name="until" value="{{until}}">
+        </label>
+    </p>
+    <p>
+        <label>Ćwiczenie
+            <input name="chosen_ex" list="exercises" type="text" value="{{object}}"/>
+            <datalist id="exercises">
+                {% for exercise in all_exercises %}
+                <option value="{{exercise.name}}">
+                    {% endfor %}
+            </datalist>
+        </label>
+    </p>
     <input type="submit" value="Potwierdź">
 </form>
-{{ graph|safe }}
+<div>
+    {{ graph|safe }}
+    {{ ex_graph|safe }}
+</div>
 </body>
