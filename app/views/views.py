@@ -1,10 +1,12 @@
 import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 import app.service.exercise_usage_service as usage_service
 from app.const import NEW_ELEMENT_PK
+from app.service.coach_service import request_coach, did_request_coach
 from app.service.date_service import dispatch_date
 
 
@@ -32,3 +34,10 @@ def remove_usage(request, **kwargs):
     day, month, year = dispatch_date(kwargs)
     usage_service.remove(pk)
     return HttpResponseRedirect(reverse('details', args=(year, month, day)))
+
+
+@login_required
+def ask_for_coach(request):
+    if not did_request_coach(request.user):
+        request_coach(request.user)
+    return HttpResponseRedirect(reverse('index'))

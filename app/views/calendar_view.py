@@ -1,9 +1,13 @@
 from calendar import LocaleHTMLCalendar
 import datetime
 
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.views import generic
+
+from ..service.coach_service import did_request_coach, get_coach_mail
 from ..service.exercise_usage_service import is_free_day
+from ..strings import CONTACT_COACH, ASK_COACH
 
 polish_locale = 'pl_PL.utf8'
 polish_months = ['', 'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień',
@@ -67,6 +71,12 @@ class CalendarView(generic.TemplateView):
         switch_year = self.__is_year_switched(previous_month)
         context['previousMonth'] = 11 if switch_year else previous_month
         context['previousYear'] = self.kwargs['year'] - 1 if switch_year else self.kwargs['year']
+        if did_request_coach(self.request.user):
+            context['coach'] = 'mailto:' + get_coach_mail(self.request.user)
+            context['coach_text'] = CONTACT_COACH
+        else:
+            context['coach'] = reverse('ask_coach')
+            context['coach_text'] = ASK_COACH
         return context
 
     @staticmethod

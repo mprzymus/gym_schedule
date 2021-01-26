@@ -23,3 +23,14 @@ def assign_coach(coach_user: UsersCoach, coach):
 
 def did_request_coach(user):
     return len(UsersCoach.objects.filter(user=user)) != 0
+
+
+def get_coach_mail(user):
+    try:
+        coach = UsersCoach.objects.filter(user=user).get().coach
+        if coach is not None:
+            return coach.mail
+        else:
+            return ''
+    except UsersCoach.DoesNotExist:
+        return None

@@ -22,5 +22,6 @@ urlpatterns = [
     path('<int:year>/<int:month>/<int:day>/details/<int:pk>/update', views.update, name='update_exercise'),
     path('charts', login_required(chart_view.ChartView.as_view()), name='charts'),
     path('copy_day', day_copy.copy_day_view, name='copy'),
-    path('copy_period', PeriodCopyView.as_view(), name='copy_period')
+    path('copy_period', PeriodCopyView.as_view(), name='copy_period'),
+    path('ask_coach', views.ask_for_coach, name='ask_coach')
 ]

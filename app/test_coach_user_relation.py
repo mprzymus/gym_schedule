@@ -32,6 +32,7 @@ class MyTestCase(TestCase):
         coach_users = UsersCoach.objects.filter(coach=self.coach)
         self.assertEqual(1, len(coach_users))
         self.assertEqual(self.user, coach_users[0].user)
+        self.assertEqual(self.coach, get_coach_mail(self.user))
 
     def test_has_not_coach_assigned(self):
         self.assertFalse(did_request_coach(self.user))
@@ -39,3 +40,11 @@ class MyTestCase(TestCase):
     def test_has_coach_assigned(self):
         request_coach(self.user)
         self.assertTrue(did_request_coach(self.user))
+
+    def test_get_coach_no_coach(self):
+        request_coach(self.user)
+
+        self.assertEqual(None, get_coach_mail(self.user))
+
+    def test_get_coach_no_request(self):
+        self.assertEqual(None, get_coach_mail(self.user))
