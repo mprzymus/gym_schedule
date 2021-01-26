@@ -25,6 +25,10 @@ def did_request_coach(user):
     return len(UsersCoach.objects.filter(user=user)) != 0
 
 
+def get_user_coach(user):
+    return UsersCoach.objects.filter(user=user).get()
+
+
 def get_coach_mail(user):
     try:
         coach = UsersCoach.objects.filter(user=user).get().coach

@@ -13,7 +13,7 @@
 <div>
     <ol>
         {% for user in taken_users %}
-        <li><a href="">{{ user.login}}</a></li>
+        <li><a href="">{{ user.username}}</a></li>
         {% empty %}
         <h4>Brak przypisanych użytkowników</h4>
         {% endfor %}
@@ -21,7 +21,7 @@
     <h3>Użytkownicy oczekujący na przypisanie</h3>
     <ol>
         {% for user in new_users %}
-        <li>Przypisz użytkownika: <a href="">{{ user.username}}</a></li>
+        <li>Przypisz użytkownika: <a href="{% url 'coach_assign' user.id %}">{{ user.username}}</a></li>
         {% endfor %}
     </ol>
 </div>

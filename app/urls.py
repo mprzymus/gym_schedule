@@ -26,4 +26,5 @@ urlpatterns = [
     path('copy_period', PeriodCopyView.as_view(), name='copy_period'),
     path('ask_coach', views.ask_for_coach, name='ask_coach'),
     path('coach/index', coach_view.coach_index, name='coach_index'),
+    path('coach/assign/<int:id>', coach_view.assign_user, name='coach_assign'),
 ]

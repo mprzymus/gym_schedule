@@ -13,12 +13,16 @@ def login_progress(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        if not is_coach(user):
-            return redirect_to_current_month()
-        else:
-            return redirect(reverse('coach_index'))
+        return redirect_by_role(user)
     else:
         return user_login(request)
+
+
+def redirect_by_role(user):
+    if not is_coach(user):
+        return redirect_to_current_month()
+    else:
+        return redirect(reverse('coach_index'))
 
 
 def redirect_to_current_month():
@@ -30,7 +34,7 @@ def user_login(request):
     if not request.user.is_authenticated:
         return render(request, 'app/login.html')
     else:
-        return redirect_to_current_month()
+        return redirect_by_role(request.user)
 
 
 def register(request):
