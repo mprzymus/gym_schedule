@@ -2,7 +2,7 @@ from django.contrib.auth.models import User, Group
 from django.test import TestCase
 
 from app.model.models import UsersCoach
-from app.service.coach_service import *
+from app.service.coach_usage import *
 
 
 class MyTestCase(TestCase):
@@ -32,7 +32,7 @@ class MyTestCase(TestCase):
         coach_users = UsersCoach.objects.filter(coach=self.coach)
         self.assertEqual(1, len(coach_users))
         self.assertEqual(self.user, coach_users[0].user)
-        self.assertEqual(self.coach, get_coach_mail(self.user))
+        self.assertEqual(self.coach.email, get_coach_mail(self.user))
 
     def test_has_not_coach_assigned(self):
         self.assertFalse(did_request_coach(self.user))
@@ -41,10 +41,21 @@ class MyTestCase(TestCase):
         request_coach(self.user)
         self.assertTrue(did_request_coach(self.user))
 
-    def test_get_coach_no_coach(self):
+    def test_get_coach_mail_no_coach(self):
         request_coach(self.user)
 
-        self.assertEqual(None, get_coach_mail(self.user))
+        self.assertEqual('', get_coach_mail(self.user))
 
     def test_get_coach_no_request(self):
         self.assertEqual(None, get_coach_mail(self.user))
+
+    def test_get_coach_users(self):
+        relation = request_coach(self.user)
+        assign_coach(relation, self.coach)
+
+        self.assertEqual(1, len(get_coach_users(self.coach)))
+
+    def test_users_waiting_for_coach(self):
+        request_coach(self.user)
+
+        self.assertEqual(1, len(get_not_assigned_users()))

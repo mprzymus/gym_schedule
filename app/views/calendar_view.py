@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.views import generic
 
-from ..service.coach_service import did_request_coach, get_coach_mail
+from ..service.coach_usage import did_request_coach, get_coach_mail
 from ..service.exercise_usage_service import is_free_day
 from ..strings import CONTACT_COACH, ASK_COACH
 

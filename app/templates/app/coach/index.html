@@ -1,0 +1,29 @@
+{% load static %}
+
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalendarz</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/background.css' %}">
+</head>
+<body>
+<h1>Użytkownicy</h1>
+    <h3>Twoi podopieczni</h3>
+<div>
+    <ol>
+        {% for user in taken_users %}
+        <li><a href="">{{ user.login}}</a></li>
+        {% empty %}
+        <h4>Brak przypisanych użytkowników</h4>
+        {% endfor %}
+    </ol>
+    <h3>Użytkownicy oczekujący na przypisanie</h3>
+    <ol>
+        {% for user in new_users %}
+        <li>Przypisz użytkownika: <a href="">{{ user.username}}</a></li>
+        {% endfor %}
+    </ol>
+</div>
+</body>
+</html>

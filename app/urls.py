@@ -2,7 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 import app.views.account_management
-from .views import views, calendar_view, day_details, exercise_view, account_management, day_copy, chart_view
+from .views import views, calendar_view, day_details, exercise_view, account_management, day_copy, chart_view, \
+    coach_view
 from .views.period_copy import PeriodCopyView
 
 urlpatterns = [
@@ -23,5 +24,6 @@ urlpatterns = [
     path('charts', login_required(chart_view.ChartView.as_view()), name='charts'),
     path('copy_day', day_copy.copy_day_view, name='copy'),
     path('copy_period', PeriodCopyView.as_view(), name='copy_period'),
-    path('ask_coach', views.ask_for_coach, name='ask_coach')
+    path('ask_coach', views.ask_for_coach, name='ask_coach'),
+    path('coach/index', coach_view.coach_index, name='coach_index'),
 ]

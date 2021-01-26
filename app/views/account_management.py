@@ -1,7 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
+from app.service.coach_service import is_coach
 from app.service.date_service import get_today
 
 
@@ -11,7 +13,10 @@ def login_progress(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        return redirect_to_current_month()
+        if not is_coach(user):
+            return redirect_to_current_month()
+        else:
+            return redirect(reverse('coach_index'))
     else:
         return user_login(request)
 

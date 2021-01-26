@@ -6,7 +6,7 @@ from django.urls import reverse
 
 import app.service.exercise_usage_service as usage_service
 from app.const import NEW_ELEMENT_PK
-from app.service.coach_service import request_coach, did_request_coach
+from app.service.coach_usage import request_coach, did_request_coach
 from app.service.date_service import dispatch_date
 
 
