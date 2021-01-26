@@ -17,3 +17,8 @@ class ExerciseUsage(models.Model):
 
     class Meta:
         unique_together = ["user_id", "date", "exercise_id"]
+
+
+class UsersCoach(models.Model):
+    user = models.ForeignKey(User, models.CASCADE)
+    coach = models.ForeignKey(User, models.CASCADE, related_name='coach', null=True)
