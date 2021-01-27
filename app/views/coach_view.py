@@ -22,7 +22,7 @@ def coach_index(request):
         'taken_users': users,
         'new_users': new_users,
         'day': today.day,
-        'month': today.month,
+        'month': today.month-1,
         'year': today.year,
     }
     return render(request, 'app/coach/index.html', context)
