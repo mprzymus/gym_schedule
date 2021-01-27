@@ -13,7 +13,7 @@ from app.views.account_management import redirect_to_current_month
 def coach_index(request):
     coach = request.user
     if not is_coach(coach):
-        return redirect_to_current_month()
+        return redirect_to_current_month(coach)
     users = map(lambda relation: relation.user, get_coach_users(coach))
     new_users = map(lambda relation: relation.user, get_not_assigned_users())
     context = {
@@ -27,7 +27,7 @@ def coach_index(request):
 def assign_user(request, **kwargs):
     coach = request.user
     if not is_coach(coach):
-        return redirect_to_current_month()
+        return redirect_to_current_month(coach)
     user_id = kwargs['id']
     user = User.objects.filter(id=user_id).get()
     if did_request_coach(user):

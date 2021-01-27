@@ -20,14 +20,14 @@ def login_progress(request):
 
 def redirect_by_role(user):
     if not is_coach(user):
-        return redirect_to_current_month()
+        return redirect_to_current_month(user)
     else:
         return redirect(reverse('coach_index'))
 
 
-def redirect_to_current_month():
+def redirect_to_current_month(usr):
     today = get_today()
-    return redirect('/%d/%d/calendar' % (today.year, today.month - 1))
+    return redirect('/%d/%d/calendar/%d' % (today.year, today.month - 1, usr.id))
 
 
 def user_login(request):
@@ -64,4 +64,4 @@ def logout_user(request):
 
 
 def default_user_site(request):
-    return redirect_to_current_month()
+    return redirect_to_current_month(request.user)

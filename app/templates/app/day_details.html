@@ -13,8 +13,8 @@
 <p>
     {{ exercise.exercise_name }} {{ exercise.weight }}kg, {{ exercise.repetitions }} powtórzeń, {{ exercise.sets }}
     serii
-    <a href="details/{{exercise.id}}">Edytuj</a>
-    <a href="details/{{exercise.id}}/delete">Usuń</a>
+    <a href="{% url 'exercise_usage_details' year month day exercise.id usr_id %}">Edytuj</a>
+    <a href="{% url 'exercise_usage_remove' year month day exercise.id usr_id %}">Usuń</a>
 </p>
 {% empty %}
 <p>Dzień wolny</p>
@@ -27,7 +27,7 @@
         <input type="submit" value="Potwierdź"/>
     </label>
 </form>
-<a href="new">
+<a href="{{ url_to_new }}">
     <button>Dodaj ćwiczenie</button>
 </a>
 </body>

@@ -1,10 +1,13 @@
 from calendar import LocaleHTMLCalendar
 import datetime
 
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.views import generic
 
+from .user_access_service import can_user_perform
 from ..service.coach_usage import did_request_coach, get_coach_mail
 from ..service.exercise_usage_service import is_free_day
 from ..strings import CONTACT_COACH, ASK_COACH
@@ -15,7 +18,7 @@ polish_months = ['', 'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec
 
 
 class Calendar(LocaleHTMLCalendar):
-    details_button = '<a href=\'%s/details\';">Szczegóły</a>'
+    details_button = '<a href=\'%s\';">Szczegóły</a>'
     formatted_year, formatted_month = None, None
 
     def __init__(self, locale, user):
@@ -32,7 +35,8 @@ class Calendar(LocaleHTMLCalendar):
         if day == 0:
             return '<td class="%s">&nbsp;</td>' % self.cssclass_noday
         else:
-            details_button = self.details_button % day
+            details_button = self.details_button % reverse('details', args=(
+                self.formatted_year, self.formatted_month, day, self.user.id))
             css_day_class = 'day_off' if is_free_day(
                 datetime.datetime(self.formatted_year, self.formatted_month, day), self.user) else "active_day"
             return '<td><span class="%s">%d</span><p>%s</p></td>' % (css_day_class, day, details_button)
@@ -60,9 +64,15 @@ class Calendar(LocaleHTMLCalendar):
 class CalendarView(generic.TemplateView):
     template_name = 'app/schedule.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if can_user_perform(request.user, kwargs['usr_id']):
+            return super(CalendarView, self).dispatch(request, *args, **kwargs)
+        return redirect(reverse('index'))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        cal = Calendar('pl_PL.utf8', self.request.user)
+        user = User.objects.filter(id=kwargs['usr_id']).get()
+        cal = Calendar('pl_PL.utf8', user)
         context['calendar'] = mark_safe(cal.formatmonth(self.kwargs['year'], self.kwargs['month'] + 1))
         next_month = (self.kwargs['month'] + 1) % 12
         context['nextMonth'] = next_month
@@ -71,8 +81,9 @@ class CalendarView(generic.TemplateView):
         switch_year = self.__is_year_switched(previous_month)
         context['previousMonth'] = 11 if switch_year else previous_month
         context['previousYear'] = self.kwargs['year'] - 1 if switch_year else self.kwargs['year']
-        if did_request_coach(self.request.user):
-            context['coach'] = 'mailto:' + get_coach_mail(self.request.user)
+        context['usr_id'] = user.id
+        if did_request_coach(user):
+            context['coach'] = 'mailto:' + get_coach_mail(user)
             context['coach_text'] = CONTACT_COACH
         else:
             context['coach'] = reverse('ask_coach')
