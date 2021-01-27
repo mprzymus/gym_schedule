@@ -22,6 +22,7 @@ urlpatterns = [
     path('<int:year>/<int:month>/<int:day>/new/<int:usr_id>', exercise_view.new_exercise_usage_view, name='exercise_usage_new'),
     path('<int:year>/<int:month>/<int:day>/details/<int:pk>/update/<int:usr_id>', views.update, name='update_exercise'),
     path('charts', login_required(chart_view.ChartView.as_view()), name='charts'),
+    path('charts/<int:usr_id>', login_required(chart_view.CoachChartView.as_view()), name='coach_charts'),
     path('copy_day', day_copy.copy_day_view, name='copy'),
     path('copy_period', PeriodCopyView.as_view(), name='copy_period'),
     path('ask_coach', views.ask_for_coach, name='ask_coach'),

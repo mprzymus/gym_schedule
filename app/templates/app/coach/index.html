@@ -10,11 +10,14 @@
 <body>
 {% include "app/nav.html" %}
 <h1>Użytkownicy</h1>
-    <h3>Twoi podopieczni</h3>
+<h3>Twoi podopieczni</h3>
 <div>
     <ol>
         {% for user in taken_users %}
-        <li>{{ user.username}}: <a href="{% url 'calendar' year month user.id %}">kalendarz</a></li>
+        <li>{{ user.username}}:
+            <a href="{% url 'calendar' year month user.id %}">kalendarz</a>
+            <a href="{% url 'coach_charts' user.id %}">statystyki</a>
+        </li>
         {% empty %}
         <h4>Brak przypisanych użytkowników</h4>
         {% endfor %}
