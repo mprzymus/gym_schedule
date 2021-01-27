@@ -17,6 +17,7 @@
         <li>{{ user.username}}:
             <a href="{% url 'calendar' year month user.id %}">kalendarz</a>
             <a href="{% url 'coach_charts' user.id %}">statystyki</a>
+            <a href="mailto:{{ user.email }}">email</a>
         </li>
         {% empty %}
         <h4>Brak przypisanych użytkowników</h4>
