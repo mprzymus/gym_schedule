@@ -1,5 +1,4 @@
 import functools
-import itertools
 from io import StringIO
 
 import matplotlib.pyplot as plt
@@ -50,6 +49,7 @@ def create_chart(x, y, tittle=''):
         data = img_data.getvalue()
         return data
     return NO_DATA % tittle
+
 
 def fold_left_exercises(exercises):
     return functools.reduce(lambda acc, ex: ex.weight * ex.repetitions + acc, exercises, 0)
