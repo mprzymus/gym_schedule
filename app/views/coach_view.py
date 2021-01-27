@@ -6,6 +6,7 @@ from django.urls import reverse
 from app.service.coach_service import is_coach
 from app.service.coach_usage import get_coach_users, get_not_assigned_users, did_request_coach, get_user_coach, \
     assign_coach
+from app.service.date_service import get_today
 from app.views.account_management import redirect_to_current_month
 
 
@@ -16,9 +17,13 @@ def coach_index(request):
         return redirect_to_current_month(coach)
     users = map(lambda relation: relation.user, get_coach_users(coach))
     new_users = map(lambda relation: relation.user, get_not_assigned_users())
+    today = get_today()
     context = {
         'taken_users': users,
         'new_users': new_users,
+        'day': today.day,
+        'month': today.month,
+        'year': today.year,
     }
     return render(request, 'app/coach/index.html', context)
 

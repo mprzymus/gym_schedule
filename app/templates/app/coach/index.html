@@ -14,7 +14,7 @@
 <div>
     <ol>
         {% for user in taken_users %}
-        <li><a href="">{{ user.username}}</a></li>
+        <li>{{ user.username}}: <a href="{% url 'calendar' year month user.id %}">kalendarz</a></li>
         {% empty %}
         <h4>Brak przypisanych użytkowników</h4>
         {% endfor %}
