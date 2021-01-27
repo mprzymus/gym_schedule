@@ -19,7 +19,7 @@
 {% empty %}
 <p>Dzień wolny</p>
 {% endfor %}
-<form method="post" action="{% url 'copy' %}">
+<form method="post" action="{% url 'copy' usr_id %}">
     {% csrf_token %}
     <label>Skopiuj do dnia
         <input type="date" id="target" name="date">
