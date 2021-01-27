@@ -8,7 +8,7 @@
 </head>
 <body>
 {% include "app/nav.html" %}
-<form method="POST" action="{% url 'copy_period' %}">
+<form method="POST" action="{% url 'copy_period' usr_id %}">
     {% csrf_token %}
     <p>
         <label>Początek okresu kopiowanego

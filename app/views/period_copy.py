@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -5,9 +6,11 @@ from django.views.generic.base import View
 import datetime as dt
 from app.const import POST_DATE_FORMAT
 from app.service.day_copy_service import PeriodCopier
+from app.views.user_access_service import can_user_perform
 
 
-def create_copier(request):
+def create_copier(request, usr_id):
+    user = User.objects.filter(id=usr_id).get()
     post = request.POST
     source_date = post['source_date']
     source_date: dt.date = dt.datetime.strptime(source_date, POST_DATE_FORMAT)
@@ -21,7 +24,7 @@ def create_copier(request):
     periods_to_change = int(post['periods_to_change'])
     weight_up = float(post['weight'])
     repetitions_change = int(post['repetitions_change'])
-    copier = PeriodCopier(source_date, period_length, start_date, end_date, request.user)
+    copier = PeriodCopier(source_date, period_length, start_date, end_date, user)
     copier.min_repetitions = min_repetitions
     copier.max_repetitions = max_repetitions
     copier.weight_up = weight_up
@@ -34,9 +37,11 @@ class PeriodCopyView(View):
     template_name = 'app/copy_period.html'
 
     def post(self, request, *args, **kwargs):
-        copier = create_copier(request)
-        copier.do_copy()
+        if can_user_perform(request.user, kwargs['usr_id']):
+            copier = create_copier(request, kwargs['usr_id'])
+            copier.do_copy()
         return HttpResponseRedirect(reverse('index'))
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        context = {'usr_id': kwargs['usr_id']}
+        return render(request, self.template_name, context)
