@@ -47,8 +47,8 @@ def register_process(request):
     name = request.POST['name']
     lastname = request.POST['lastname']
     mail = request.POST['mail']
-    user = User.objects.get(username=username)
-    if user is None:
+    user = User.objects.filter(username=username).exists()
+    if not user:
         user = User.objects.create_user(username, mail, password)
         user.first_name = name
         user.last_name = lastname
